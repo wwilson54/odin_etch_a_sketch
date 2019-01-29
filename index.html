@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        #grid-container {
+            width: 960px;
+            height: 480px;
+        }
+        #grid-container div {
+            display: inline-block;
+            border:0;
+            padding: 0;
+            margin: 0;
+        }
+        .drawn {
+            background-color: black;
+        }
+    </style>
+    <head>
+
+    </head>
+    <body>
+        <div>
+            <button id='clear'>Clear Screen</button>
+        </div>
+        <div id="grid-container"></div>
+    </body>
+    <script>
+        const gridContainer = document.querySelector('#grid-container');
+        const clearButton = document.querySelector('#clear');
+        let gridSize = 16;
+        /*
+        //create initial grid
+        for (let i = 0;i < (16*16);i++) {
+            let gridItem = document.createElement('div')
+            gridContainer.appendChild(gridItem);
+        }
+
+        //assign listeners to each grid item
+        let i = 0;
+        while (gridContainer.childNodes[i]) {
+            let childDiv = gridContainer.childNodes[i];
+            childDiv.addEventListener('mouseover',function (e) {colorGrid(childDiv)})
+            i++;
+        }
+        */
+        //remove all grid items and create new grid
+        function createGrid (gridSize) {
+            gridSize = parseInt(gridSize);
+
+            while (gridContainer.firstChild) {
+                gridContainer.removeChild(gridContainer.firstChild);
+            }
+
+            for (let i = 0;i < (gridSize*gridSize);i++) {
+            let gridItem = document.createElement('div')
+            gridItem.style.width = (1/gridSize*100) + '%';
+            gridItem.style.height = (1/gridSize*100) + '%';
+            gridContainer.appendChild(gridItem);
+            }
+
+            let i = 0;
+            while (gridContainer.childNodes[i]) {
+             let childDiv = gridContainer.childNodes[i];
+              childDiv.addEventListener('mouseover',function (e) {colorGrid(childDiv)})
+              i++;
+           }
+        }
+
+
+        function colorGrid (childDiv) {
+            childDiv.classList.add('drawn');
+        }
+
+        function clearGrid () {
+            for(let j = 0;j < gridSize;j++) {
+                gridContainer.childNodes[j].classList.remove('.drawn');
+            }
+            let selectedSize = prompt('What size grid?');
+            createGrid(selectedSize);
+        }
+
+        clearButton.addEventListener('click',function (e) {clearGrid()});
+
+        createGrid(16);
+    </script>
+</html>
